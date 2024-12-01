@@ -69,7 +69,7 @@ Public Class FillInterface
     End Sub
 
     Public Sub LoadUserScore()
-        Dim username As String = UserSession.Username ' Get the logged-in username
+        Dim username As String = UserSession.Username 
 
         Using connection As New MySqlConnection(connectionString)
             Try
@@ -87,7 +87,7 @@ Public Class FillInterface
                 If score IsNot DBNull.Value AndAlso score IsNot Nothing Then
                     FScoreLabel.Text = score.ToString() ' Display score in ScoreLabel
                 Else
-                    FScoreLabel.Text = "0" ' Default to 0 if no score is found
+                    FScoreLabel.Text = "0" 
                 End If
             Catch ex As Exception
                 MessageBox.Show("An error occurred while loading the score: " & ex.Message)
