@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="AboutGame.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AboutUs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ChangePassFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ChangeProfileFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CorrectForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreditsFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillFinishForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion10.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion4.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion5.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion6.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion7.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion8.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillQuestion9.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillScores.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FillTutorial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FinishForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GCorrectForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessFinishForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion10.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion4.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion5.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion6.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion7.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion8.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessQuestion9.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessScores.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GuessTutorial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LeaderbordsFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LoginFailed.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="LoginSuccess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion10.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion4.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion5.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion6.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion7.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion8.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCQuestion9.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MCTutorial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ModeSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Question2.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="QuestionScores.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ResourcesFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SecondForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SettingsFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SettingsInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SignInForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SignUpForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SignUpSuccess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="StartPage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="test.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TutorialForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TutorialInterface.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UsernameFrm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WrongForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
