@@ -11,12 +11,10 @@ Public Class ChangePassFrm
             Return
         End If
 
-
         If Not VerifyPassword(OldPassTxt.Text) Then
             MessageBox.Show("The old password is incorrect. Please try again.", "Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
         End If
-
 
         If UpdatePassword(NewPassTxt.Text) Then
             MessageBox.Show("Password successfully changed. You will be logged out.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -32,7 +30,6 @@ Public Class ChangePassFrm
             MessageBox.Show("An error occurred while updating the password. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End If
     End Sub
-
 
     Private Function VerifyPassword(oldPassword As String) As Boolean
         Dim query As String = "SELECT Password FROM players_tb WHERE Username = @Username"
@@ -51,7 +48,6 @@ Public Class ChangePassFrm
         Return False
     End Function
 
-
     Private Function UpdatePassword(newPassword As String) As Boolean
         Dim query As String = "UPDATE players_tb SET Password = @NewPassword WHERE Username = @Username"
         Using connection As New MySqlConnection(connectionString)
@@ -67,7 +63,6 @@ Public Class ChangePassFrm
         End Using
     End Function
 
-
     Private Sub Guna2CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles Guna2CheckBox1.CheckedChanged
         If OldPassTxt.PasswordChar = "*"c Then
             OldPassTxt.PasswordChar = ""
@@ -75,7 +70,6 @@ Public Class ChangePassFrm
             OldPassTxt.PasswordChar = "*"c
         End If
     End Sub
-
 
     Private Sub Guna2CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles Guna2CheckBox2.CheckedChanged
         If NewPassTxt.PasswordChar = "*"c Then
@@ -98,7 +92,6 @@ Public Class ChangePassFrm
         Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
         If mainInterface IsNot Nothing Then
-
             mainInterface.Close()
         End If
     End Sub
