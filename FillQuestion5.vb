@@ -15,7 +15,6 @@ Public Class FillQuestion5
        
         Guna2TextBox1.MaxLength = 3
         Guna2TextBox2.MaxLength = 6
-
         
         AddHandler transitionTimer.Tick, AddressOf OnTransitionTimerTick
         FillInterface.QuestionLbl.Text = "5"
@@ -40,9 +39,7 @@ Public Class FillQuestion5
         Dim correct1 As Boolean = Guna2TextBox1.Text = correctAnswers(0) ' Check TextBox1 answer
         Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) ' Check TextBox2 answer
 
-        
         Guna2TextBox1.ForeColor = If(correct1, Color.Green, Color.Red)
-
         
         If String.IsNullOrEmpty(Guna2TextBox2.Text) Then
             Guna2TextBox2.ForeColor = Color.Red
@@ -56,9 +53,7 @@ Public Class FillQuestion5
             Dim pointsToAdd As Integer = 50
             UpdateUserScore(UserSession.Username, pointsToAdd)
 
-            
             UpdateScoreLabel(UserSession.Username)
-
            
             UpdatePanelColor("F5Panel", Color.Gray)
             correctSound.Play()
@@ -74,13 +69,11 @@ Public Class FillQuestion5
                                                   correctForm.Dispose()
                                                   correctFormTimer.Stop()
                                                   correctFormTimer.Dispose()
-
-                                                 
+                                               
                                                   transitionTimer.Start()
                                               End Sub
             correctFormTimer.Start()
         Else
-           
             ShowWrongForm()
             bgSound.PlayLooping()
         End If
@@ -98,7 +91,6 @@ Public Class FillQuestion5
                                             wrongForm.Dispose()
                                             wrongFormTimer.Stop()
                                             wrongFormTimer.Dispose()
-
                                            
                                             Guna2TextBox1.Clear()
                                             Guna2TextBox2.Clear()
@@ -113,7 +105,6 @@ Public Class FillQuestion5
     Private Sub OnTransitionTimerTick(sender As Object, e As EventArgs)
         
         transitionTimer.Stop()
-
         
         Dim fillScoresForm As New FillScores()
         fillScoresForm.Show()
@@ -126,8 +117,7 @@ Public Class FillQuestion5
                                              fillScoresForm.Dispose()
                                              fillScoresTimer.Stop()
                                              fillScoresTimer.Dispose()
-
-                                             
+                                            
                                              ShowNextQuestion()
                                          End Sub
         fillScoresTimer.Start()
@@ -150,7 +140,6 @@ Public Class FillQuestion5
         Using connection As New MySqlConnection(connectionString)
             Try
                 connection.Open()
-
 
                 Dim playerId As Integer
                 Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE username = @Username"
@@ -209,7 +198,6 @@ Public Class FillQuestion5
         Dim db As New MY_DB()
         db.openConnection()
 
-        
         Dim playerId As Integer = 0
         Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE Username = @username"
         Dim playerIdCommand As New MySqlCommand(getPlayerIdQuery, db.getConnection)
