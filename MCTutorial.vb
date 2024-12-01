@@ -1,14 +1,14 @@
 ﻿Public Class MCTutorial
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String 
     Private db As New MY_DB()
 
     Private Sub CloseMainInterface()
-        ' Get the instance of MainInterface or find it in open forms
+       
         Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
         If mainInterface IsNot Nothing Then
-            ' If MainInterface is open, close it
+           
             mainInterface.Close()
         End If
     End Sub
