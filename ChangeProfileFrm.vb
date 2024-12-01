@@ -27,7 +27,7 @@ Public Class ChangeProfileFrm
 
             If ProfilePicture.Image Is Nothing Then
                 MessageBox.Show("Please upload a picture first.", "No Image Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Return ' Exit the function if no image is selected
+                Return 
             End If
 
             Try
@@ -53,7 +53,7 @@ Public Class ChangeProfileFrm
 
                 
                 If Not String.IsNullOrEmpty(UserSession.Username) Then
-                    Dim profileImage As Byte() = LoadUserProfileImage(UserSession.Username) ' Load updated image
+                    Dim profileImage As Byte() = LoadUserProfileImage(UserSession.Username) 
                     If profileImage IsNot Nothing Then
                         Dim ms As New IO.MemoryStream(profileImage)
                         Dim newProfileImage As Image = Image.FromStream(ms)
@@ -96,7 +96,7 @@ Public Class ChangeProfileFrm
                 sqlConn.Open()
                 Using reader As MySqlDataReader = sqlCmd.ExecuteReader()
                     If reader.Read() AndAlso Not IsDBNull(reader("picture")) Then
-                        imageBytes = CType(reader("picture"), Byte()) ' Get the profile picture as byte array
+                        imageBytes = CType(reader("picture"), Byte()) 
 
                     End If
                 End Using
