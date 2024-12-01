@@ -5,13 +5,13 @@ Imports System.Media
 
 Public Class MCInterface
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String 
     Private db As New MY_DB()
     Dim player As SoundPlayer
 
     Private Sub MCInterface_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim username As String = UserSession.Username ' Get the logged-in username
-        UpdateScoreLabel(username) ' Display the user's current score on load
+        Dim username As String = UserSession.Username 
+        UpdateScoreLabel(username) 
 
         LoadUserScore()
         MCQuestion1.TopLevel = False
@@ -27,22 +27,22 @@ Public Class MCInterface
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' SQL query to get the user's score from scores_tb
+       
         Dim query As String = "SELECT s.score FROM scores_tb s " &
                           "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                           "WHERE p.username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        ' Add parameters to the query
+        
         command.Parameters.AddWithValue("@username", username)
 
-        ' Execute the query and read the score
+        
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("score")), 0, Convert.ToInt32(reader("score")))
 
-            ' Make sure to update the PointsLbl on MainInterface
+            
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
@@ -50,32 +50,32 @@ Public Class MCInterface
             End If
         End If
 
-        ' Clean up
+        
         reader.Close()
         db.closeConnection()
     End Sub
 
-    ' Load the user's score based on their username
+  
     Public Sub LoadUserScore()
-        Dim username As String = UserSession.Username ' Get the logged-in username
+        Dim username As String = UserSession.Username 
 
         Using connection As New MySqlConnection(connectionString)
             Try
                 connection.Open()
 
-                ' SQL query to get the user's score from scores_tb
+               
                 Dim query As String = "SELECT s.score FROM scores_tb s " &
                                   "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                                   "WHERE p.username = @Username"
                 Dim command As New MySqlCommand(query, connection)
                 command.Parameters.AddWithValue("@Username", username)
 
-                ' Execute the query and get the score
+                
                 Dim score As Object = command.ExecuteScalar()
                 If score IsNot DBNull.Value AndAlso score IsNot Nothing Then
-                    ScoreLabel.Text = score.ToString() ' Display score in ScoreLabel
+                    ScoreLabel.Text = score.ToString() 
                 Else
-                    ScoreLabel.Text = "0" ' Default to 0 if no score is found
+                    ScoreLabel.Text = "0" 
                 End If
             Catch ex As Exception
                 MessageBox.Show("An error occurred while loading the score: " & ex.Message)
@@ -85,7 +85,7 @@ Public Class MCInterface
         End Using
     End Sub
 
-    ' This method can be called to update the username after login
+   
     Public Sub SetUsername(user As String)
         username = user
     End Sub
@@ -124,10 +124,10 @@ Public Class MCInterface
             mainInterface.MainPanel.Controls.Add(modeSelection)
             modeSelection.Show()
 
-            ' Update the score label and username on MainInterface
-            UpdateScoreLabel(UserSession.Username) ' Update the score on MainInterface
+            
+            UpdateScoreLabel(UserSession.Username) 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
-                mainInterface.UpdateUsernameLabel(UserSession.Username) ' Make sure username is displayed
+                mainInterface.UpdateUsernameLabel(UserSession.Username) 
             End If
 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
@@ -170,15 +170,15 @@ Public Class MCInterface
 
 
     Private Sub ResetPanelColors()
-        ' Loop through all panels and reset their colors to white
+       
         For Each panelName As String In GlobalState.PanelColors.Keys.ToList()
-            ' Assuming the panels are named Q1Panel, Q2Panel, etc.
+           
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
-                panelControl.BackColor = Color.White ' Reset the panel color to white
+                panelControl.BackColor = Color.White 
             End If
 
-            ' Optionally, reset the color in the dictionary to ensure consistency
+           
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
