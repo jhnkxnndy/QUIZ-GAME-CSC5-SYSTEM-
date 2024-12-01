@@ -1,5 +1,5 @@
 ﻿Module GlobalState
-    ' This dictionary will hold the colors for all panels
+   
     Public PanelColors As New Dictionary(Of String, Color) From {
         {"Q1Panel", Color.White}, ' Initialize with the default color (gray) for Q1Panel
         {"Q2Panel", Color.White},
