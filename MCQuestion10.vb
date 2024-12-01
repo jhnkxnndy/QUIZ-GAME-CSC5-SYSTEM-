@@ -8,16 +8,16 @@ Public Class MCQuestion10
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
     Private flickerCount As Integer = 0
     Private flickerTimer As New Timer() With {.Interval = 100}
-    Private transitionTimer As New Timer() With {.Interval = 2000} ' 2-second intervals
-    Private currentPhase As Integer = 0 ' Track which part of the transition we are in
-    Private buttonsClickable As Boolean = True ' Track if buttons are clickable
+    Private transitionTimer As New Timer() With {.Interval = 2000} 
+    Private currentPhase As Integer = 0 
+    Private buttonsClickable As Boolean = True 
     Private correctSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (1).wav")
     Private wrongSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (2).wav")
     Private Sub UpdatePanelColor(panelName As String, newColor As Color)
         If PanelColors.ContainsKey(panelName) Then
-            PanelColors(panelName) = newColor ' Update the global dictionary
+            PanelColors(panelName) = newColor 
 
-            ' Apply the color to the actual panel
+            
             Select Case panelName
                 Case "Q10Panel"
                     QuestionScores.Q10Panel.FillColor = newColor
@@ -26,28 +26,28 @@ Public Class MCQuestion10
     End Sub
 
     Private Sub Guna2Button1_Click(sender As Object, e As EventArgs) Handles Guna2Button1.Click
-        ' Prevent multiple clicks by disabling the button
+        
         If Not buttonsClickable Then Return
         buttonsClickable = False
 
-        ' Increment the correct answers count and add to AnsClass
+        
         CorrectAnswers.CorrectAnswersCount += 1
         AnsClass.AddCorrectAnswer(True)
 
-        ' Update the user's score
+       
         UpdateScore(UserSession.Username, 20)
 
-        ' Set up flickering effect and change button color to LightGreen
+        
         flickerCount = 0
         Guna2Button1.FillColor = Color.LightGreen
         UpdatePanelColor("Q10Panel", Color.LightGreen)
-        QuestionScores.Q10Panel.FillColor = Color.LightGreen ' Change the panel color for the correct answer
+        QuestionScores.Q10Panel.FillColor = Color.LightGreen 
         flickerTimer.Start()
         correctSound.Play()
-        ' Show CorrectForm after flickering
+       
         Dim correctForm As New CorrectForm()
         correctForm.Show()
-        transitionTimer.Start() ' Start transition timer to handle closing the CorrectForm
+        transitionTimer.Start() 
     End Sub
 
 
@@ -149,7 +149,7 @@ Public Class MCQuestion10
         Else
             flickerTimer.Stop()
             Guna2Button1.FillColor = Color.LightGreen
-            QuestionScores.Q10Panel.FillColor = Color.LightGreen ' Set the panel color as well
+            QuestionScores.Q10Panel.FillColor = Color.LightGreen 
             currentPhase = 1
         End If
     End Sub
@@ -171,21 +171,21 @@ Public Class MCQuestion10
                 Dim questionScores As QuestionScores = Application.OpenForms.OfType(Of QuestionScores)().FirstOrDefault()
                 If questionScores Is Nothing Then
                     questionScores = New QuestionScores()
-                    questionScores.Q10Panel.FillColor = Color.Gray ' Reflect the correct color
+                    questionScores.Q10Panel.FillColor = Color.Gray 
                     questionScores.Show()
                 Else
-                    questionScores.Q10Panel.FillColor = Color.Gray ' Update the color for an existing form
+                    questionScores.Q10Panel.FillColor = Color.Gray 
                 End If
 
-                ' Move to the next phase
+                
                 currentPhase = 2
 
             Case 2
-                ' Show FinishForm after QuestionScores
+               
                 Dim finishForm As New FinishForm()
                 finishForm.Show()
 
-                ' Close MCInterface and QuestionScores
+                
                 Dim mcInterface As MCInterface = Application.OpenForms.OfType(Of MCInterface)().FirstOrDefault()
                 If mcInterface IsNot Nothing Then
                     mcInterface.Close()
@@ -196,20 +196,20 @@ Public Class MCQuestion10
                     questionScores.Close()
                 End If
 
-                ' Close this form
+                
                 Me.Close()
 
-                ' Stop transition timer
+               
                 transitionTimer.Stop()
         End Select
     End Sub
 
 
-    ' Initialize timers in the constructor or Form_Load event
+    
     Private Sub MCQuestion10_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler flickerTimer.Tick, AddressOf FlickerEffect
         AddHandler transitionTimer.Tick, AddressOf TransitionSequence
-        MCInterface.QuestionLbl.Text = "10" ' Update question label to show it's Question 10
+        MCInterface.QuestionLbl.Text = "10" 
     End Sub
 
 End Class
