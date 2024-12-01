@@ -28,7 +28,7 @@ Public Class QuestionScores
     End Sub
     Public Sub ApplyPanelColors()
         If GlobalState.PanelColors.ContainsKey("Q1Panel") Then
-            Q1Panel.FillColor = GlobalState.PanelColors("Q1Panel") ' Apply the color stored in the dictionary
+            Q1Panel.FillColor = GlobalState.PanelColors("Q1Panel") 
         End If
 
         If GlobalState.PanelColors.ContainsKey("Q2Panel") Then
