@@ -3,43 +3,43 @@ Imports MySql.Data.MySqlClient
 
 Public Class FillQuestion7
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String 
     Private db As New MY_DB()
     Private correctAnswers As String() = {"while", "<", "i++"}
-    Private transitionTimer As New Timer() ' Timer for transitioning to the next form
-    Private Const TransitionTime As Integer = 2000 ' 2 seconds in milliseconds
+    Private transitionTimer As New Timer() 
+    Private Const TransitionTime As Integer = 2000 
     Private correctSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (1).wav")
     Private wrongSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (2).wav")
     Private bgSound As New SoundPlayer("C:\Users\johnk\Downloads\Game Show Countdown _ ROYALTY FREE Background Music [ ezmp3.cc ].wav")
     Private Sub FillQuestion7_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Initialize textboxes' max lengths
+        
         Guna2TextBox1.MaxLength = 5
         Guna2TextBox2.MaxLength = 1
         Guna2TextBox3.MaxLength = 3
 
-        ' Set up the transition timer
+       
         AddHandler transitionTimer.Tick, AddressOf OnTransitionTimerTick
         FillInterface.QuestionLbl.Text = "7"
     End Sub
 
     Private Sub Guna2TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles Guna2TextBox1.KeyDown, Guna2TextBox2.KeyDown, Guna2TextBox3.KeyDown
-        ' Check if the Enter key is pressed
+        
         If e.KeyCode = Keys.Enter Then
-            ValidateAnswers() ' Validate answers when Enter is pressed
-            e.Handled = True ' Suppress default Enter behavior
+            ValidateAnswers() 
+            e.Handled = True 
         End If
     End Sub
 
     Private Sub Guna2TextBox1_TextChanged(sender As Object, e As EventArgs) Handles Guna2TextBox1.TextChanged
-        ' If the user types in the first textbox, move focus to the second textbox
-        If Guna2TextBox1.Text.Length = 5 Then ' When 5 characters are typed in
+        
+        If Guna2TextBox1.Text.Length = 5 Then 
             Guna2TextBox2.Focus()
         End If
     End Sub
 
     Private Sub Guna2TextBox2_TextChanged(sender As Object, e As EventArgs) Handles Guna2TextBox2.TextChanged
-        ' If the user types in the second textbox, move focus to the third textbox
-        If Guna2TextBox2.Text.Length = 1 Then ' When 1 character is typed in
+        
+        If Guna2TextBox2.Text.Length = 1 Then 
             Guna2TextBox3.Focus()
         End If
     End Sub
@@ -49,28 +49,28 @@ Public Class FillQuestion7
         Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) ' Check TextBox2 answer
         Dim correct3 As Boolean = Guna2TextBox3.Text = correctAnswers(2) ' Check TextBox3 answer
 
-        ' Highlight answers with appropriate colors
+       
         Guna2TextBox1.ForeColor = If(correct1, Color.Green, Color.Red)
         Guna2TextBox2.ForeColor = If(correct2, Color.Green, Color.Red)
         Guna2TextBox3.ForeColor = If(correct3, Color.Green, Color.Red)
 
-        ' If all answers are correct
+        
         If correct1 AndAlso correct2 AndAlso correct3 Then
-            ' Add points to the user
+           
             Dim pointsToAdd As Integer = 50
             UpdateUserScore(UserSession.Username, pointsToAdd)
 
-            ' Refresh score label
+            
             UpdateScoreLabel(UserSession.Username)
 
-            ' Change panel color to gray
+           
             UpdatePanelColor("F7Panel", Color.Gray)
             correctSound.Play()
-            ' Show the CorrectForm
+          
             Dim correctForm As New CorrectForm()
             correctForm.Show()
 
-            ' Close CorrectForm after 2 seconds and start transition to next question
+           
             Dim correctFormTimer As New Timer()
             correctFormTimer.Interval = TransitionTime
             AddHandler correctFormTimer.Tick, Sub()
@@ -79,12 +79,12 @@ Public Class FillQuestion7
                                                   correctFormTimer.Stop()
                                                   correctFormTimer.Dispose()
 
-                                                  ' Start transition timer to move to the next question after the correct form closes
+                                                  
                                                   transitionTimer.Start()
                                               End Sub
             correctFormTimer.Start()
         Else
-            ' If any answer is wrong, show the wrong form
+           
             ShowWrongForm()
             bgSound.PlayLooping()
         End If
@@ -94,37 +94,37 @@ Public Class FillQuestion7
         Dim wrongForm As New WrongForm()
         wrongForm.Show()
 
-        ' Close WrongForm after 1 second
+       
         Dim wrongFormTimer As New Timer()
-        wrongFormTimer.Interval = 1000 ' 1 second
+        wrongFormTimer.Interval = 1000 
         AddHandler wrongFormTimer.Tick, Sub()
                                             wrongForm.Close()
                                             wrongForm.Dispose()
                                             wrongFormTimer.Stop()
                                             wrongFormTimer.Dispose()
 
-                                            ' Clear the textboxes and reset for new attempt
+                                           
                                             Guna2TextBox1.Clear()
                                             Guna2TextBox2.Clear()
                                             Guna2TextBox3.Clear()
                                             Guna2TextBox1.ForeColor = Color.Black
                                             Guna2TextBox2.ForeColor = Color.Black
                                             Guna2TextBox3.ForeColor = Color.Black
-                                            Guna2TextBox1.Focus() ' Focus on the first textbox
+                                            Guna2TextBox1.Focus() 
                                         End Sub
         wrongFormTimer.Start()
     End Sub
 
-    ' Transition to next question after correct answer
+    
     Private Sub OnTransitionTimerTick(sender As Object, e As EventArgs)
-        ' Stop the transition timer
+        
         transitionTimer.Stop()
 
-        ' Show FillScores form
+        
         Dim fillScoresForm As New FillScores()
         fillScoresForm.Show()
 
-        ' Close FillScores after 2 seconds
+       
         Dim fillScoresTimer As New Timer()
         fillScoresTimer.Interval = TransitionTime
         AddHandler fillScoresTimer.Tick, Sub()
@@ -133,14 +133,14 @@ Public Class FillQuestion7
                                              fillScoresTimer.Stop()
                                              fillScoresTimer.Dispose()
 
-                                             ' Transition to FillQuestion8
+                                            
                                              ShowNextQuestion()
                                          End Sub
         fillScoresTimer.Start()
     End Sub
 
     Private Sub ShowNextQuestion()
-        ' Embed FillQuestion8 into the Guna2Panel1 of FillInterface
+       
         Dim fillInterface As FillInterface = Application.OpenForms.OfType(Of FillInterface)().FirstOrDefault()
         If fillInterface IsNot Nothing Then
             fillInterface.Guna2Panel1.Controls.Clear()
@@ -151,7 +151,7 @@ Public Class FillQuestion7
         End If
     End Sub
 
-    ' Updates the score in the database
+   
     Private Sub UpdateUserScore(username As String, scoreToAdd As Integer)
         Using connection As New MySqlConnection(connectionString)
             Try
@@ -210,12 +210,12 @@ Public Class FillQuestion7
         End Using
     End Sub
 
-    ' Refreshes the score label in the interface
+    
     Public Sub UpdateScoreLabel(username As String)
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' Step 1: Get the player_id from players_tb based on username
+      
         Dim playerId As Integer = 0
         Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE Username = @username"
         Dim playerIdCommand As New MySqlCommand(getPlayerIdQuery, db.getConnection)
@@ -227,7 +227,7 @@ Public Class FillQuestion7
         End If
         playerIdReader.Close()
 
-        ' Step 2: Get the score from scores_tb using player_id
+       
         If playerId > 0 Then
             Dim getScoreQuery As String = "SELECT Score FROM scores_tb WHERE player_id = @player_id"
             Dim scoreCommand As New MySqlCommand(getScoreQuery, db.getConnection)
@@ -235,7 +235,7 @@ Public Class FillQuestion7
 
             Dim scoreReader As MySqlDataReader = scoreCommand.ExecuteReader()
             If scoreReader.Read() Then
-                ' If score is found, update the score label
+                
                 Dim score As Integer = If(IsDBNull(scoreReader("Score")), 0, Convert.ToInt32(scoreReader("Score")))
                 FillInterface.FScoreLabel.Text = score.ToString()
             End If
@@ -245,11 +245,11 @@ Public Class FillQuestion7
         db.closeConnection()
     End Sub
 
-    ' Updates the color of a specific panel
+  
     Private Sub UpdatePanelColor(panelName As String, newColor As Color)
         If PanelColors.ContainsKey(panelName) Then
             PanelColors(panelName) = newColor ' Update the global dictionary
-            ' Apply the color to the actual panel
+           
             Select Case panelName
                 Case "F7Panel"
                     FillScores.F7Panel.FillColor = newColor
