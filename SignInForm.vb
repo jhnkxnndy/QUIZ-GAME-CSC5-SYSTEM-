@@ -15,15 +15,15 @@ Public Class SignInForm
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' SQL query to check if the username and password match in players_tb
+       
         Dim query As String = "SELECT player_id, Username, Password, Picture FROM `players_tb` WHERE `Username` = @username AND `Password` = @pass"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        ' Add parameters to the query
+       
         command.Parameters.AddWithValue("@username", SIUser.Text)
         command.Parameters.AddWithValue("@pass", SIPW.Text)
 
-        ' Execute the query and check for matching rows
+       
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         Dim username As String = ""
@@ -32,36 +32,32 @@ Public Class SignInForm
         Dim profileImageBytes As Byte() = Nothing
 
         If reader.HasRows Then
-            ' Login success
             reader.Read()
 
-            ' Retrieve the player_id, username, and profile picture from players_tb
             playerId = Convert.ToInt32(reader("player_id"))
             username = reader("Username").ToString()
 
-            ' Check if the profile picture column is not null
+            
             If Not IsDBNull(reader("Picture")) Then
                 profileImageBytes = CType(reader("Picture"), Byte())
             End If
-
-            ' Close the reader before executing another command on the same connection
             reader.Close()
 
-            ' Now, query the score from the scores_tb table using player_id
+           
             Dim scoreQuery As String = "SELECT Score FROM `scores_tb` WHERE `player_id` = @playerId"
             Dim scoreCommand As New MySqlCommand(scoreQuery, db.getConnection)
             scoreCommand.Parameters.AddWithValue("@playerId", playerId)
 
-            ' Execute the query to get the score
+            
             Dim scoreReader As MySqlDataReader = scoreCommand.ExecuteReader()
 
             If scoreReader.HasRows Then
                 scoreReader.Read()
 
-                ' Retrieve the score
+               
                 score = If(IsDBNull(scoreReader("Score")), 0, scoreReader("Score"))
             Else
-                ' If no score exists, initialize to 0 and insert it into scores_tb
+               
                 score = 0
                 Dim initializeScoreQuery As String = "INSERT INTO scores_tb (player_id, Score) VALUES (@player_id, @Score)"
                 Using initScoreCommand As New MySqlCommand(initializeScoreQuery, db.getConnection)
@@ -71,31 +67,31 @@ Public Class SignInForm
                 End Using
             End If
 
-            ' Close the score reader
+            
             scoreReader.Close()
 
-            ' Clear the text boxes after login
+           
             SIUser.Text = ""
             SIPW.Text = ""
 
             MessageBox.Show("Account Login Successful!", "Log in Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-            ' Open the MainInterface form and pass the username, score, and profile picture
+           
             Dim mainInterface As New MainInterface()
-            mainInterface.UserLabelText = username ' Set the username
-            mainInterface.PointsLabelText = score.ToString() ' Set the score
+            mainInterface.UserLabelText = username 
+            mainInterface.PointsLabelText = score.ToString()
 
-            ' Load and set the profile picture
+            
             If profileImageBytes IsNot Nothing Then
                 mainInterface.ProfileImageBytes = profileImageBytes
                 Using ms As New IO.MemoryStream(profileImageBytes)
                     mainInterface.UserProfileImage = Image.FromStream(ms)
                 End Using
             Else
-                mainInterface.ProfileImageBytes = Nothing ' Explicitly set it to nothing for clarity
+                mainInterface.ProfileImageBytes = Nothing 
             End If
 
-            ' Set the logged-in username
+            
             UserSession.Username = username
 
             mainInterface.Show()
@@ -105,18 +101,18 @@ Public Class SignInForm
             Guna2CheckBox1.Checked = False
 
         Else
-            ' Login failed
+           
             MessageBox.Show("Account Login Failed: Check your account credentials!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-            ' Clear the text boxes after failed login
+           
             SIUser.Text = ""
             SIPW.Text = ""
             Guna2CheckBox1.Checked = False
-            ' Close the reader if no rows were found
+            
             reader.Close()
         End If
 
-        ' Close the database connection
+        
         db.closeConnection()
     End Sub
 
