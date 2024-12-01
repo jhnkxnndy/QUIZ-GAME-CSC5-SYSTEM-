@@ -33,7 +33,7 @@ Public Class ChangeProfileFrm
             Try
                 connection.Open()
 
-                ' Update Profile Picture
+                
                 Dim imageData As Byte() = Nothing
                 If ProfilePicture.Image IsNot Nothing Then
                     Dim ms As New MemoryStream()
@@ -48,17 +48,17 @@ Public Class ChangeProfileFrm
                     End Using
                 End If
 
-                ' Show success message
+                
                 MessageBox.Show("Profile successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                ' Load the updated profile image and update MainInterface
+                
                 If Not String.IsNullOrEmpty(UserSession.Username) Then
                     Dim profileImage As Byte() = LoadUserProfileImage(UserSession.Username) ' Load updated image
                     If profileImage IsNot Nothing Then
                         Dim ms As New IO.MemoryStream(profileImage)
                         Dim newProfileImage As Image = Image.FromStream(ms)
 
-                        ' Update MainInterface with the new profile image
+                        
                         Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
                         If mainInterface IsNot Nothing Then
                             mainInterface.UpdateProfilePicture(newProfileImage)
@@ -66,10 +66,10 @@ Public Class ChangeProfileFrm
                     End If
                 End If
 
-                ' Clear the picture box after the update
+               
                 ProfilePicture.Image = Nothing
 
-                ' Navigate back to SettingsFrm
+                
                 Me.Hide()
                 SettingsFrm.TopLevel = False
                 SettingsInterface.Guna2Panel1.Controls.Add(SettingsFrm)
