@@ -1,15 +1,15 @@
 ﻿Public Class ModeSelection
 
     Private Sub ModeSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Initialize if needed
+        
     End Sub
 
     Private Sub CloseMainInterface()
-        ' Get the instance of MainInterface or find it in open forms
+        
         Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
         If mainInterface IsNot Nothing Then
-            ' If MainInterface is open, close it
+           
             mainInterface.Close()
         End If
     End Sub
