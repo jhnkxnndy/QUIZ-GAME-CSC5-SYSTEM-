@@ -19,27 +19,24 @@ Public Class MY_DB
         End If
     End Sub
 
-    ' Method to execute parameterized queries (INSERT, UPDATE, DELETE)
+   
     Public Sub ExecuteQuery(query As String, parameters As Dictionary(Of String, Object))
         Try
-            ' Open the connection
             openConnection()
 
-            ' Create the command
             Using command As New MySqlCommand(query, connection)
-                ' Add the parameters to the query
+                
                 For Each param In parameters
                     command.Parameters.AddWithValue(param.Key, param.Value)
                 Next
 
-                ' Execute the query
                 command.ExecuteNonQuery()
             End Using
+        
         Catch ex As Exception
-            ' Handle exceptions
             MessageBox.Show("Database error: " & ex.Message)
         Finally
-            ' Close the connection
+           
             closeConnection()
         End Try
     End Sub
