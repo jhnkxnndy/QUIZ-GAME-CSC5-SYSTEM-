@@ -6,31 +6,31 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Public Class GuessInterface
 
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String 
     Private db As New MY_DB()
     Private WithEvents flickerTimer As New Timer()
     Private WithEvents wrongFormTimer As New Timer()
     Private player As New SoundPlayer()
     Public Sub LoadUserScore()
-        Dim username As String = UserSession.Username ' Get the logged-in username
+        Dim username As String = UserSession.Username 
 
         Using connection As New MySqlConnection(connectionString)
             Try
                 connection.Open()
 
-                ' SQL query to get the user's score from scores_tb
+                
                 Dim query As String = "SELECT s.score FROM scores_tb s " &
                                   "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                                   "WHERE p.username = @Username"
                 Dim command As New MySqlCommand(query, connection)
                 command.Parameters.AddWithValue("@Username", username)
 
-                ' Execute the query and get the score
+               
                 Dim score As Object = command.ExecuteScalar()
                 If score IsNot DBNull.Value AndAlso score IsNot Nothing Then
-                    GScoreLabel.Text = score.ToString() ' Display score in ScoreLabel
+                    GScoreLabel.Text = score.ToString() 
                 Else
-                    GScoreLabel.Text = "0" ' Default to 0 if no score is found
+                    GScoreLabel.Text = "0" 
                 End If
             Catch ex As Exception
                 MessageBox.Show("An error occurred while loading the score: " & ex.Message)
@@ -44,22 +44,22 @@ Public Class GuessInterface
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' SQL query to get the user's score from scores_tb
+       
         Dim query As String = "SELECT s.score FROM scores_tb s " &
                           "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                           "WHERE p.username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        ' Add parameters to the query
+       
         command.Parameters.AddWithValue("@username", username)
 
-        ' Execute the query and read the score
+        
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("score")), 0, Convert.ToInt32(reader("score")))
 
-            ' Make sure to update the PointsLbl on MainInterface
+            
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
@@ -67,26 +67,26 @@ Public Class GuessInterface
             End If
         End If
 
-        ' Clean up
+        
         reader.Close()
         db.closeConnection()
     End Sub
 
-    ' This method can be called to update the username after login
+    
     Public Sub SetUsername(user As String)
         username = user
     End Sub
 
     Private Sub GuessInterface_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        flickerTimer.Interval = 500 ' Flicker every 500 milliseconds
+        flickerTimer.Interval = 500 
         flickerTimer.Start()
         Label1.Visible = True
 
-        UpdateScoreLabel(username) ' Display the user's current score on load
+        UpdateScoreLabel(username)
         LoadUserScore()
 
-        ' Load the first question form
+        
         GuessQuestion1.TopLevel = False
         Guna2Panel1.Controls.Add(GuessQuestion1)
         GuessQuestion1.Show()
@@ -98,7 +98,7 @@ Public Class GuessInterface
     End Sub
 
     Private Sub flickerTimer_Tick(sender As Object, e As EventArgs) Handles flickerTimer.Tick
-        ' Toggle the visibility of the label to create a flickering effect
+        
         Label1.Visible = Not Label1.Visible
     End Sub
 
@@ -133,10 +133,10 @@ Public Class GuessInterface
             mainInterface.MainPanel.Controls.Add(modeSelection)
             modeSelection.Show()
 
-            ' Update the score label and username on MainInterface
-            UpdateScoreLabel(UserSession.Username) ' Update the score on MainInterface
+            
+            UpdateScoreLabel(UserSession.Username) 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
-                mainInterface.UpdateUsernameLabel(UserSession.Username) ' Make sure username is displayed
+                mainInterface.UpdateUsernameLabel(UserSession.Username) 
             End If
 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
@@ -177,15 +177,15 @@ Public Class GuessInterface
     End Function
 
     Private Sub ResetPanelColors()
-        ' Loop through all panels and reset their colors to white
+        
         For Each panelName As String In GlobalState.PanelColors.Keys.ToList()
-            ' Assuming the panels are named Q1Panel, Q2Panel, etc.
+            
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
-                panelControl.BackColor = Color.White ' Reset the panel color to white
+                panelControl.BackColor = Color.White 
             End If
 
-            ' Optionally, reset the color in the dictionary to ensure consistency
+           
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
