@@ -24,21 +24,21 @@ Public Class FillQuestion1
     Private Sub Guna2TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles Guna2TextBox1.KeyDown, Guna2TextBox2.KeyDown
         
         If e.KeyCode = Keys.Enter Then
-            ValidateAnswers() ' Validate answers when Enter is pressed
-            e.Handled = True ' Suppress default Enter behavior
+            ValidateAnswers() 
+            e.Handled = True 
         End If
     End Sub
 
     Private Sub Guna2TextBox1_TextChanged(sender As Object, e As EventArgs) Handles Guna2TextBox1.TextChanged
         
-        If Guna2TextBox1.Text.Length = 2 Then ' When 2 characters are typed in
+        If Guna2TextBox1.Text.Length = 2 Then 
             Guna2TextBox2.Focus()
         End If
     End Sub
 
     Private Sub ValidateAnswers()
-        Dim correct1 As Boolean = Guna2TextBox1.Text = correctAnswers(0) ' Check TextBox1 answer
-        Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) ' Check TextBox2 answer
+        Dim correct1 As Boolean = Guna2TextBox1.Text = correctAnswers(0)
+        Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) 
 
        
         Guna2TextBox1.ForeColor = If(correct1, Color.Green, Color.Red)
@@ -92,7 +92,7 @@ Public Class FillQuestion1
 
        
         Dim wrongFormTimer As New Timer()
-        wrongFormTimer.Interval = 1000 ' 1 second
+        wrongFormTimer.Interval = 1000 
         AddHandler wrongFormTimer.Tick, Sub()
                                             wrongForm.Close()
                                             wrongForm.Dispose()
@@ -243,7 +243,7 @@ Public Class FillQuestion1
    
     Private Sub UpdatePanelColor(panelName As String, newColor As Color)
         If PanelColors.ContainsKey(panelName) Then
-            PanelColors(panelName) = newColor ' Update the global dictionary
+            PanelColors(panelName) = newColor 
             
             Select Case panelName
                 Case "F1Panel"
