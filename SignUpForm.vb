@@ -19,7 +19,7 @@ Public Class SignUpForm
 
     Private imageBytes() As Byte
     Private bitmap As Bitmap
-    Private WithEvents closeTimer As New Timer() ' Timer to handle form closure
+    Private WithEvents closeTimer As New Timer() 
 
     Private Sub SIBtn_Click(sender As Object, e As EventArgs) Handles Guna2Button1.Click
         If String.IsNullOrWhiteSpace(UserTxt.Text) OrElse String.IsNullOrWhiteSpace(PWTxt.Text) Then
@@ -32,7 +32,7 @@ Public Class SignUpForm
             Return
         End If
 
-        ' Define the queries
+        
         Dim insertPlayerQuery As String = "INSERT INTO players_tb (username, password, picture) VALUES (@Username, @Password, @Picture);"
         Dim insertScoreQuery As String = "INSERT INTO scores_tb (player_id, username, score) VALUES (@PlayerID, @Username, 0);"
         Dim insertLeaderboardQuery As String = "INSERT INTO leaderboard_tb (player_id, username, score) VALUES (@PlayerID, @Username, 0);"
@@ -42,15 +42,13 @@ Public Class SignUpForm
             Try
                 sqlConn.Open()
 
-                ' Start a transaction
                 Dim transaction = sqlConn.BeginTransaction()
 
-                ' Insert into players_tb
                 Using sqlCmd As New MySqlCommand(insertPlayerQuery, sqlConn, transaction)
                     sqlCmd.Parameters.AddWithValue("@Username", UserTxt.Text.Trim())
                     sqlCmd.Parameters.AddWithValue("@Password", PWTxt.Text)
 
-                    ' Add image data or NULL
+                    
                     If imageBytes IsNot Nothing Then
                         sqlCmd.Parameters.Add("@Picture", MySqlDbType.LongBlob).Value = imageBytes
                     Else
@@ -60,34 +58,32 @@ Public Class SignUpForm
                     sqlCmd.ExecuteNonQuery()
                 End Using
 
-                ' Get the last inserted player_id
+                
                 Dim playerID As Integer
                 Using sqlCmd As New MySqlCommand(lastInsertedIDQuery, sqlConn, transaction)
                     playerID = Convert.ToInt32(sqlCmd.ExecuteScalar())
                 End Using
 
-                ' Insert into scores_tb
+               
                 Using sqlCmd As New MySqlCommand(insertScoreQuery, sqlConn, transaction)
                     sqlCmd.Parameters.AddWithValue("@PlayerID", playerID)
                     sqlCmd.Parameters.AddWithValue("@Username", UserTxt.Text.Trim())
                     sqlCmd.ExecuteNonQuery()
                 End Using
 
-                ' Insert into leaderboard_tb
+               
                 Using sqlCmd As New MySqlCommand(insertLeaderboardQuery, sqlConn, transaction)
                     sqlCmd.Parameters.AddWithValue("@PlayerID", playerID)
                     sqlCmd.Parameters.AddWithValue("@Username", UserTxt.Text.Trim())
                     sqlCmd.ExecuteNonQuery()
                 End Using
 
-                ' Commit the transaction
                 transaction.Commit()
 
-                ' Set session variables and UI updates
                 UserSession.Username = UserTxt.Text.Trim()
                 MessageBox.Show("Account created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                ' Clear fields and navigate to the main interface
+                
                 UserTxt.Clear()
                 PWTxt.Clear()
                 Guna2CheckBox1.Checked = False
