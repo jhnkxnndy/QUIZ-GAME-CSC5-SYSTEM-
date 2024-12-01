@@ -17,7 +17,6 @@ Public Class FillQuestion10
         Guna2TextBox1.MaxLength = 3
         Guna2TextBox2.MaxLength = 6 
 
-        
         AddHandler transitionTimer.Tick, AddressOf OnTransitionTimerTick
         FillInterface.QuestionLbl.Text = "10"
     End Sub
@@ -44,16 +43,13 @@ Public Class FillQuestion10
         Guna2TextBox1.ForeColor = If(correct1, Color.Green, Color.Red)
         Guna2TextBox2.ForeColor = If(correct2, Color.Green, Color.Red)
 
-        
         If correct1 AndAlso correct2 Then
             
             Dim pointsToAdd As Integer = 50
             UpdateUserScore(UserSession.Username, pointsToAdd)
 
-            
             UpdateScoreLabel(UserSession.Username)
 
-           
             UpdatePanelColor("F10Panel", Color.Gray)
             correctSound.Play()
            
@@ -68,8 +64,7 @@ Public Class FillQuestion10
                                                   correctForm.Dispose()
                                                   correctFormTimer.Stop()
                                                   correctFormTimer.Dispose()
-
-                                                  
+                            
                                                   transitionTimer.Start()
                                               End Sub
             correctFormTimer.Start()
@@ -92,8 +87,7 @@ Public Class FillQuestion10
                                             wrongForm.Dispose()
                                             wrongFormTimer.Stop()
                                             wrongFormTimer.Dispose()
-
-                                            
+                   
                                             Guna2TextBox1.Clear()
                                             Guna2TextBox2.Clear()
                                             Guna2TextBox1.ForeColor = Color.Black
@@ -107,7 +101,6 @@ Public Class FillQuestion10
     Private Sub OnTransitionTimerTick(sender As Object, e As EventArgs)
         
         transitionTimer.Stop()
-
         
         Dim fillScoresForm As New FillScores()
         fillScoresForm.Show()
@@ -120,8 +113,7 @@ Public Class FillQuestion10
                                              fillScoresForm.Dispose()
                                              fillScoresTimer.Stop()
                                              fillScoresTimer.Dispose()
-
-                                            
+                              
                                              ShowFinishForm()
                                          End Sub
         fillScoresTimer.Start()
@@ -146,7 +138,6 @@ Public Class FillQuestion10
         Using connection As New MySqlConnection(connectionString)
             Try
                 connection.Open()
-
 
                 Dim playerId As Integer
                 Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE username = @Username"
@@ -205,7 +196,6 @@ Public Class FillQuestion10
         Dim db As New MY_DB()
         db.openConnection()
 
-        
         Dim playerId As Integer = 0
         Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE Username = @username"
         Dim playerIdCommand As New MySqlCommand(getPlayerIdQuery, db.getConnection)
@@ -231,7 +221,6 @@ Public Class FillQuestion10
             End If
             scoreReader.Close()
         End If
-
         db.closeConnection()
     End Sub
 
