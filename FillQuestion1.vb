@@ -15,7 +15,6 @@ Public Class FillQuestion1
         
         Guna2TextBox1.MaxLength = 2
         Guna2TextBox2.MaxLength = 1
-
         
         AddHandler transitionTimer.Tick, AddressOf OnTransitionTimerTick
         FillInterface.QuestionLbl.Text = "1"
@@ -40,10 +39,8 @@ Public Class FillQuestion1
         Dim correct1 As Boolean = Guna2TextBox1.Text = correctAnswers(0)
         Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) 
 
-       
         Guna2TextBox1.ForeColor = If(correct1, Color.Green, Color.Red)
 
-       
         If String.IsNullOrEmpty(Guna2TextBox2.Text) Then
             Guna2TextBox2.ForeColor = Color.Red
         Else
@@ -56,10 +53,8 @@ Public Class FillQuestion1
             Dim pointsToAdd As Integer = 50
             UpdateUserScore(UserSession.Username, pointsToAdd)
 
-            
             UpdateScoreLabel(UserSession.Username)
 
-            
             UpdatePanelColor("F1Panel", Color.Gray)
             correctSound.Play()
            
@@ -75,12 +70,10 @@ Public Class FillQuestion1
                                                   correctFormTimer.Stop()
                                                   correctFormTimer.Dispose()
 
-                                                  
                                                   transitionTimer.Start()
                                               End Sub
             correctFormTimer.Start()
         Else
-            
             ShowWrongForm()
             bgSound.PlayLooping()
         End If
@@ -99,7 +92,6 @@ Public Class FillQuestion1
                                             wrongFormTimer.Stop()
                                             wrongFormTimer.Dispose()
 
-                                            
                                             Guna2TextBox1.Clear()
                                             Guna2TextBox2.Clear()
                                             Guna2TextBox1.ForeColor = Color.Black
@@ -113,7 +105,6 @@ Public Class FillQuestion1
     Private Sub OnTransitionTimerTick(sender As Object, e As EventArgs)
         
         transitionTimer.Stop()
-
        
         Dim fillScoresForm As New FillScores()
         fillScoresForm.Show()
@@ -126,8 +117,7 @@ Public Class FillQuestion1
                                              fillScoresForm.Dispose()
                                              fillScoresTimer.Stop()
                                              fillScoresTimer.Dispose()
-
-                                            
+                  
                                              ShowNextQuestion()
                                          End Sub
         fillScoresTimer.Start()
@@ -150,7 +140,6 @@ Public Class FillQuestion1
         Using connection As New MySqlConnection(connectionString)
             Try
                 connection.Open()
-
 
                 Dim playerId As Integer
                 Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE username = @Username"
@@ -238,8 +227,6 @@ Public Class FillQuestion1
 
         db.closeConnection()
     End Sub
-
-
    
     Private Sub UpdatePanelColor(panelName As String, newColor As Color)
         If PanelColors.ContainsKey(panelName) Then
