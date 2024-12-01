@@ -11,7 +11,7 @@ Public Class GuessScores
 
     Public Sub ApplyPanelColors()
         If GlobalState.PanelColors.ContainsKey("L1Panel") Then
-            L1Panel.FillColor = GlobalState.PanelColors("L1Panel") ' Apply the color stored in the dictionary
+            L1Panel.FillColor = GlobalState.PanelColors("L1Panel") 
         End If
 
         If GlobalState.PanelColors.ContainsKey("L2Panel") Then
