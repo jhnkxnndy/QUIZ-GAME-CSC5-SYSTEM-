@@ -33,7 +33,6 @@ Public Class ChangeProfileFrm
             Try
                 connection.Open()
 
-                
                 Dim imageData As Byte() = Nothing
                 If ProfilePicture.Image IsNot Nothing Then
                     Dim ms As New MemoryStream()
@@ -48,10 +47,8 @@ Public Class ChangeProfileFrm
                     End Using
                 End If
 
-                
                 MessageBox.Show("Profile successfully updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                
                 If Not String.IsNullOrEmpty(UserSession.Username) Then
                     Dim profileImage As Byte() = LoadUserProfileImage(UserSession.Username) 
                     If profileImage IsNot Nothing Then
@@ -66,10 +63,8 @@ Public Class ChangeProfileFrm
                     End If
                 End If
 
-               
                 ProfilePicture.Image = Nothing
 
-                
                 Me.Hide()
                 SettingsFrm.TopLevel = False
                 SettingsInterface.Guna2Panel1.Controls.Add(SettingsFrm)
@@ -83,8 +78,6 @@ Public Class ChangeProfileFrm
             End Try
         End Using
     End Sub
-
-
 
     Private Function LoadUserProfileImage(username As String) As Byte()
         Dim imageBytes As Byte() = Nothing
