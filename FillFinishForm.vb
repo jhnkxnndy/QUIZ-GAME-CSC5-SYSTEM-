@@ -35,7 +35,6 @@ Public Class FillFinishForm
                 panelControl.BackColor = Color.White 
             End If
 
-           
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
@@ -104,7 +103,6 @@ Public Class FillFinishForm
 
                     End If
                 End Using
-
                 sqlConn.Close()
 
             End Using
@@ -123,24 +121,19 @@ Public Class FillFinishForm
                           "WHERE p.username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-       
         command.Parameters.AddWithValue("@username", username)
 
-        
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("score")), 0, Convert.ToInt32(reader("score")))
 
-            
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
                 mainInterface.UpdatePointsLbl(score)
             End If
         End If
-
-        
         reader.Close()
         db.closeConnection()
     End Sub
