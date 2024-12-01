@@ -3,14 +3,14 @@
 Public Class TutorialInterface
 
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String 
     Private db As New MY_DB()
     Private Sub CloseMainInterface()
-        ' Get the instance of MainInterface or find it in open forms
+       
         Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
         If mainInterface IsNot Nothing Then
-            ' If MainInterface is open, close it
+          
             mainInterface.Close()
         End If
     End Sub
@@ -28,20 +28,20 @@ Public Class TutorialInterface
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' SQL query to get the user's score
+       
         Dim query As String = "SELECT Score FROM players_tb WHERE Username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        ' Add parameters to the query
+        
         command.Parameters.AddWithValue("@username", username)
 
-        ' Execute the query and read the score
+        
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("Score")), 0, Convert.ToInt32(reader("Score")))
 
-            ' Make sure to update the PointsLbl on MainInterface
+            
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
@@ -49,7 +49,7 @@ Public Class TutorialInterface
             End If
         End If
 
-        ' Clean up
+      
         reader.Close()
         db.closeConnection()
     End Sub
@@ -80,15 +80,15 @@ Public Class TutorialInterface
 
 
     Private Sub ResetPanelColors()
-        ' Loop through all panels and reset their colors to white
+       
         For Each panelName As String In GlobalState.PanelColors.Keys.ToList()
-            ' Assuming the panels are named Q1Panel, Q2Panel, etc.
+            
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
-                panelControl.BackColor = Color.White ' Reset the panel color to white
+                panelControl.BackColor = Color.White
             End If
 
-            ' Optionally, reset the color in the dictionary to ensure consistency
+            
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
