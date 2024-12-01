@@ -6,40 +6,40 @@ Imports MySql.Data.MySqlClient
 Public Class GuessQuestion4
 
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String 
     Private db As New MY_DB()
 
     Private letterBoxes() As Guna.UI2.WinForms.Guna2TextBox
-    Private correctAnswer As String = "swift" ' Set the correct answer for Question 4
-    Private transitionTimer As New Timer() ' Timer to handle transition
-    Private wrongFormTimer As New Timer() ' Timer for wrong answer form
-    Private Const TransitionTime As Integer = 2000 ' 2 seconds in milliseconds
+    Private correctAnswer As String = "swift" 
+    Private transitionTimer As New Timer() 
+    Private wrongFormTimer As New Timer() 
+    Private Const TransitionTime As Integer = 2000 
     Private correctSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (1).wav")
     Private wrongSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (2).wav")
     Private bgSound As New SoundPlayer("C:\Users\johnk\Downloads\Game Show Countdown _ ROYALTY FREE Background Music [ ezmp3.cc ].wav")
     Private Sub GuessQuestion4_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         GuessInterface.QuestionLbl.Text = "4"
 
-        ' Initialize the Guna2TextBox array
+       
         letterBoxes = New Guna.UI2.WinForms.Guna2TextBox() {
             Guna2TextBox1, Guna2TextBox2, Guna2TextBox3, Guna2TextBox4, Guna2TextBox5
         }
 
-        ' Set MaxLength to 1 for each Guna2TextBox
+       
         For Each tb In letterBoxes
             tb.MaxLength = 1
-            tb.ReadOnly = False ' Ensure textboxes are editable initially
-            AddHandler tb.TextChanged, AddressOf Guna2TextBox_TextChanged ' Use TextChanged event handler
-            AddHandler tb.KeyDown, AddressOf Guna2TextBox_KeyDown ' Keep the KeyDown event handler for backspace
+            tb.ReadOnly = False 
+            AddHandler tb.TextChanged, AddressOf Guna2TextBox_TextChanged 
+            AddHandler tb.KeyDown, AddressOf Guna2TextBox_KeyDown 
         Next
 
-        ' Set focus back to the first textbox when the form loads
+        
         letterBoxes(0).Focus()
 
-        ' Set up the timer for transitions
+       
         AddHandler transitionTimer.Tick, AddressOf OnTransitionTimerTick
 
-        ' Set up the timer for wrong form
+       
         AddHandler wrongFormTimer.Tick, AddressOf wrongFormTimer_Tick
     End Sub
 
@@ -47,36 +47,36 @@ Public Class GuessQuestion4
         Dim currentTextBox As Guna.UI2.WinForms.Guna2TextBox = CType(sender, Guna.UI2.WinForms.Guna2TextBox)
         Dim index As Integer = Array.IndexOf(letterBoxes, currentTextBox)
 
-        ' If the user enters a letter and the textbox is filled (MaxLength is 1), move the focus to the next textbox
+       
         If currentTextBox.Text.Length = 1 And index < letterBoxes.Length - 1 Then
-            letterBoxes(index + 1).Focus() ' Move focus to the next textbox
+            letterBoxes(index + 1).Focus() 
         End If
     End Sub
 
     Private Sub Guna2TextBox_KeyDown(sender As Object, e As KeyEventArgs)
         Dim currentTextBox As Guna.UI2.WinForms.Guna2TextBox = CType(sender, Guna.UI2.WinForms.Guna2TextBox)
-        Dim index As Integer = Array.IndexOf(letterBoxes, currentTextBox) ' Find the index of the current textbox
+        Dim index As Integer = Array.IndexOf(letterBoxes, currentTextBox)
 
         If e.KeyCode = Keys.Enter Then
-            ' Concatenate all textbox values to form the user's input
+            
             Dim userInput As String = String.Concat(letterBoxes.Select(Function(tb) tb.Text))
 
             If userInput.ToLower() = correctAnswer Then
-                Dim pointsToAdd As Integer = 30 ' Points to add for the correct answer
-                UpdateUserScore(UserSession.Username, pointsToAdd) ' Update the user's score
+                Dim pointsToAdd As Integer = 30 
+                UpdateUserScore(UserSession.Username, pointsToAdd) 
 
-                ' Refresh the score display after updating
+                
                 UpdateScoreLabel(UserSession.Username)
 
-                ' Change panel color to indicate the correct answer
+                
                 UpdatePanelColor("L4Panel", Color.Gray)
                 correctSound.Play()
-                ' Show the CorrectForm after the correct answer is given
+                
                 Dim correctForm As New CorrectForm()
                 correctForm.Show()
 
                 Dim closeCorrectFormTimer As New Timer()
-                closeCorrectFormTimer.Interval = 2000 ' 2 seconds
+                closeCorrectFormTimer.Interval = 2000 
                 AddHandler closeCorrectFormTimer.Tick, Sub()
                                                            correctForm.Close()
                                                            correctForm.Dispose()
@@ -85,28 +85,28 @@ Public Class GuessQuestion4
                                                        End Sub
                 closeCorrectFormTimer.Start()
 
-                ' Start the transition timer
+               
                 transitionTimer.Start()
             Else
-                ' Show the WrongForm if the answer is incorrect
+                
                 ShowWrongForm()
                 bgSound.PlayLooping()
             End If
 
-            e.Handled = True ' Prevent further processing of the key press
+            e.Handled = True 
         ElseIf e.KeyCode = Keys.Back Then
-            ' Handle Backspace behavior
+            
             If currentTextBox.Text.Length = 1 Then
                 currentTextBox.Clear()
                 currentTextBox.ReadOnly = False
 
-                ' Move focus to the previous textbox if the current one is empty
+                
                 If index > 0 Then
                     letterBoxes(index - 1).Focus()
                 End If
             End If
 
-            ' If the textbox is empty, move the focus to the previous textbox
+            
             If currentTextBox.Text.Length = 0 And index > 0 Then
                 letterBoxes(index - 1).Focus()
             End If
@@ -116,32 +116,32 @@ Public Class GuessQuestion4
     End Sub
 
     Private Sub OnTransitionTimerTick(sender As Object, e As EventArgs)
-        ' Stop the transition timer
+       
         transitionTimer.Stop()
 
-        ' Wait for 2 seconds before proceeding with hiding the form
+      
         Dim delayTimer As New Timer()
-        delayTimer.Interval = 2000 ' 2 seconds delay
+        delayTimer.Interval = 2000 
         AddHandler delayTimer.Tick, Sub()
-                                        ' Stop the delay timer
+                                       
                                         delayTimer.Stop()
 
-                                        ' Hide the current form
+                                        
                                         Me.Hide()
 
-                                        ' Show the GuessScores form
+                                       
                                         Dim guessScoresForm As New GuessScores()
                                         guessScoresForm.Show()
                                         UpdatePanelColor("L4Panel", Color.Gray)
 
-                                        ' Start a new timer to close GuessScores after 2 seconds
+                                        
                                         Dim closeTimer As New Timer()
                                         closeTimer.Interval = TransitionTime ' 2 seconds
                                         AddHandler closeTimer.Tick, Sub()
                                                                         closeTimer.Stop()
                                                                         guessScoresForm.Close()
 
-                                                                        ' Now transition to the next question
+                                                                        
                                                                         ShowNextQuestion()
                                                                     End Sub
                                         closeTimer.Start()
@@ -150,22 +150,22 @@ Public Class GuessQuestion4
     End Sub
 
     Private Sub ShowWrongForm()
-        WrongForm.Show() ' Show the wrong form
-        wrongFormTimer.Interval = 1000 ' Set to 1 second
-        wrongFormTimer.Start() ' Start the timer to close the WrongForm
+        WrongForm.Show() 
+        wrongFormTimer.Interval = 1000 
+        wrongFormTimer.Start() 
     End Sub
 
     Private Sub wrongFormTimer_Tick(sender As Object, e As EventArgs)
-        WrongForm.Close() ' Close the WrongForm
-        wrongFormTimer.Stop() ' Stop the timer after closing
+        WrongForm.Close() 
+        wrongFormTimer.Stop() 
 
-        ' Reset the text in each Guna2TextBox to allow for new input
+        
         For Each tb In letterBoxes
             tb.Clear()
-            tb.ReadOnly = False ' Allow editing again
+            tb.ReadOnly = False 
         Next
 
-        ' Set focus back to the first textbox after clearing
+       
         letterBoxes(0).Focus()
     End Sub
 
@@ -231,7 +231,7 @@ Public Class GuessQuestion4
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' Step 1: Get the player_id from players_tb based on username
+        
         Dim playerId As Integer = 0
         Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE Username = @username"
         Dim playerIdCommand As New MySqlCommand(getPlayerIdQuery, db.getConnection)
@@ -243,7 +243,7 @@ Public Class GuessQuestion4
         End If
         playerIdReader.Close()
 
-        ' Step 2: Get the score from scores_tb using player_id
+        
         If playerId > 0 Then
             Dim getScoreQuery As String = "SELECT Score FROM scores_tb WHERE player_id = @player_id"
             Dim scoreCommand As New MySqlCommand(getScoreQuery, db.getConnection)
@@ -251,7 +251,7 @@ Public Class GuessQuestion4
 
             Dim scoreReader As MySqlDataReader = scoreCommand.ExecuteReader()
             If scoreReader.Read() Then
-                ' If score is found, update the score label
+                
                 Dim score As Integer = If(IsDBNull(scoreReader("Score")), 0, Convert.ToInt32(scoreReader("Score")))
                 GuessInterface.GScoreLabel.Text = score.ToString()
             End If
@@ -263,8 +263,8 @@ Public Class GuessQuestion4
 
     Private Sub UpdatePanelColor(panelName As String, newColor As Color)
         If PanelColors.ContainsKey(panelName) Then
-            PanelColors(panelName) = newColor ' Update the global dictionary
-            ' Apply the color to the actual panel
+            PanelColors(panelName) = newColor 
+            
             Select Case panelName
                 Case "L4Panel"
                     GuessScores.L3Panel.FillColor = newColor
@@ -273,11 +273,11 @@ Public Class GuessQuestion4
     End Sub
 
     Private Sub ShowNextQuestion()
-        ' Transition to the next question (GuessQuestion5)
+        
         Dim guessInterface As GuessInterface = Application.OpenForms.OfType(Of GuessInterface)().FirstOrDefault()
         If guessInterface IsNot Nothing Then
             guessInterface.Guna2Panel1.Controls.Clear()
-            Dim guessQuestion5 As New GuessQuestion5() ' Replace with the actual next question form
+            Dim guessQuestion5 As New GuessQuestion5() 
             guessQuestion5.TopLevel = False
             guessInterface.Guna2Panel1.Controls.Add(guessQuestion5)
             guessQuestion5.Show()
