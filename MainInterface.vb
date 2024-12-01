@@ -19,17 +19,17 @@ Public Class MainInterface
                 Dim img As Image = Image.FromStream(ms)
                 UserProfile.Image = img
             Catch ex As Exception
-                ' If there’s an error loading the image, set a default image
+                
                 UserProfile.Image = Image.FromFile("C:\Users\johnk\Downloads\user.png")
             End Try
         Else
-            ' If no image is provided, set a default image
+           
             UserProfile.Image = Image.FromFile("C:\Users\johnk\Downloads\user.png")
         End If
     End Sub
 
     Public Sub UpdateProfilePicture(image As Image)
-        UserProfile.Image = image ' Set the user's profile picture
+        UserProfile.Image = image 
     End Sub
     Public Property UserLabelText As String
         Get
@@ -50,7 +50,7 @@ Public Class MainInterface
 
     Public Property PointsLabelText As String
         Set(value As String)
-            ' Assuming you have a Label named PointsLabel to display the score
+            
             PointsLbl.Text = value
         End Set
         Get
@@ -67,7 +67,7 @@ Public Class MainInterface
         HomeBtn.FillColor = Color.FromArgb(252, 118, 62)
         Try
             mainInterfacePlayer = New SoundPlayer("C:\Users\johnk\Downloads\Game Show Theme Style Music. [ ezmp3.cc ].wav")
-            mainInterfacePlayer.PlayLooping() ' Ensure the music starts playing in a loop
+            mainInterfacePlayer.PlayLooping() 
         Catch ex As Exception
             MessageBox.Show("Error playing sound: " & ex.Message)
         End Try
@@ -78,13 +78,13 @@ Public Class MainInterface
                     UserProfile.Image = Image.FromStream(ms)
                 End Using
             Else
-                ' Load placeholder image if no profile picture
+               
                 UserProfile.Image = Image.FromFile("C:\Users\johnk\Downloads\user.png")
             End If
         End If
     End Sub
     Public Sub UpdatePointsLbl(score As Integer)
-        PointsLbl.Text = score.ToString() ' Update the PointsLbl with the current score
+        PointsLbl.Text = score.ToString() 
     End Sub
 
 
@@ -151,22 +151,18 @@ Public Class MainInterface
     End Sub
 
     Private Sub LogoutBtn_Click(sender As Object, e As EventArgs) Handles LogoutBtn.Click
-        ' Ask the user if they really want to logout
         Dim result As DialogResult = MessageBox.Show("Are you sure you want to log out?", "Logout Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-        ' If the user clicks "Yes", proceed with logging out
         If result = DialogResult.Yes Then
-            ' Clear the username and score labels
             Me.Close()
             UserLabel.Text = String.Empty
             PointsLbl.Text = String.Empty
 
-            ' Navigate to the Start form
+            
             Dim signInPage As New SignInForm()
             signInPage.Show()
 
-            ' Close the current form (MainInterface)
-
+          
         End If
     End Sub
 
