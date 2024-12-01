@@ -5,7 +5,7 @@ Imports MySql.Data.MySqlClient
 Public Class FillInterface
 
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
-    Private username As String ' Store the username when the user logs in
+    Private username As String
     Private db As New MY_DB()
     Private WithEvents flickerTimer As New Timer()
     Private WithEvents wrongFormTimer As New Timer()
@@ -16,7 +16,7 @@ Public Class FillInterface
     End Sub
 
     Private Sub FillInterface_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        flickerTimer.Interval = 500 ' Flicker every 500 milliseconds
+        flickerTimer.Interval = 500 
         flickerTimer.Start()
         Label1.Visible = True
 
@@ -25,7 +25,7 @@ Public Class FillInterface
         FillQuestion1.Show()
         FillQuestion1.BringToFront()
 
-        UpdateScoreLabel(username) ' Display the user's current score on load
+        UpdateScoreLabel(username) 
         LoadUserScore()
 
         player = New SoundPlayer("C:\Users\johnk\Downloads\Game Show Countdown _ ROYALTY FREE Background Music [ ezmp3.cc ].wav")
@@ -128,9 +128,9 @@ Public Class FillInterface
             modeSelection.Show()
 
             
-            UpdateScoreLabel(UserSession.Username) ' Update the score on MainInterface
+            UpdateScoreLabel(UserSession.Username) 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
-                mainInterface.UpdateUsernameLabel(UserSession.Username) ' Make sure username is displayed
+                mainInterface.UpdateUsernameLabel(UserSession.Username) 
             End If
 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
@@ -157,7 +157,7 @@ Public Class FillInterface
                 sqlConn.Open()
                 Using reader As MySqlDataReader = sqlCmd.ExecuteReader()
                     If reader.Read() AndAlso Not IsDBNull(reader("picture")) Then
-                        imageBytes = CType(reader("picture"), Byte()) ' Get the profile picture as byte array
+                        imageBytes = CType(reader("picture"), Byte())
 
                     End If
                 End Using
@@ -176,7 +176,7 @@ Public Class FillInterface
             
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
-                panelControl.BackColor = Color.White ' Reset the panel color to white
+                panelControl.BackColor = Color.White 
             End If
 
            
