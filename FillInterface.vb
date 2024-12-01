@@ -42,24 +42,19 @@ Public Class FillInterface
                           "WHERE p.username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        
         command.Parameters.AddWithValue("@username", username)
 
-       
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("score")), 0, Convert.ToInt32(reader("score")))
 
-            
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
                 mainInterface.UpdatePointsLbl(score)
             End If
         End If
-
-       
         reader.Close()
         db.closeConnection()
     End Sub
@@ -75,7 +70,6 @@ Public Class FillInterface
             Try
                 connection.Open()
 
-                
                 Dim query As String = "SELECT s.score FROM scores_tb s " &
                                   "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                                   "WHERE p.username = @Username"
@@ -109,7 +103,6 @@ Public Class FillInterface
                     questionForm.Close()
                 End If
             Next
-
             Me.Close()
 
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
@@ -127,7 +120,6 @@ Public Class FillInterface
             mainInterface.MainPanel.Controls.Add(modeSelection)
             modeSelection.Show()
 
-            
             UpdateScoreLabel(UserSession.Username) 
             If Not String.IsNullOrEmpty(UserSession.Username) Then
                 mainInterface.UpdateUsernameLabel(UserSession.Username) 
@@ -161,7 +153,6 @@ Public Class FillInterface
 
                     End If
                 End Using
-
                 sqlConn.Close()
 
             End Using
@@ -179,7 +170,6 @@ Public Class FillInterface
                 panelControl.BackColor = Color.White 
             End If
 
-           
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
