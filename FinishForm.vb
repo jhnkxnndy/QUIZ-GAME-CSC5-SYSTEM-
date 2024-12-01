@@ -38,10 +38,10 @@ Public Class FinishForm
         mainInterface.MainPanel.Controls.Add(modeSelection)
         modeSelection.Show()
 
-        ' Update the score label and username on MainInterface
-        UpdateScoreLabel(UserSession.Username) ' Update the score on MainInterface
+       
+        UpdateScoreLabel(UserSession.Username) 
         If Not String.IsNullOrEmpty(UserSession.Username) Then
-            mainInterface.UpdateUsernameLabel(UserSession.Username) ' Make sure username is displayed
+            mainInterface.UpdateUsernameLabel(UserSession.Username) 
         End If
 
         If Not String.IsNullOrEmpty(UserSession.Username) Then
@@ -68,7 +68,7 @@ Public Class FinishForm
                 sqlConn.Open()
                 Using reader As MySqlDataReader = sqlCmd.ExecuteReader()
                     If reader.Read() AndAlso Not IsDBNull(reader("picture")) Then
-                        imageBytes = CType(reader("picture"), Byte()) ' Get the profile picture as byte array
+                        imageBytes = CType(reader("picture"), Byte()) 
 
                     End If
                 End Using
@@ -82,15 +82,15 @@ Public Class FinishForm
     End Function
 
     Private Sub ResetPanelColors()
-        ' Loop through all panels and reset their colors to white
+        
         For Each panelName As String In GlobalState.PanelColors.Keys.ToList()
-            ' Assuming the panels are named Q1Panel, Q2Panel, etc.
+           
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
-                panelControl.BackColor = Color.White ' Reset the panel color to white
+                panelControl.BackColor = Color.White 
             End If
 
-            ' Optionally, reset the color in the dictionary to ensure consistency
+            
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
@@ -99,22 +99,22 @@ Public Class FinishForm
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' SQL query to get the user's score from scores_tb
+       
         Dim query As String = "SELECT s.score FROM scores_tb s " &
                           "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                           "WHERE p.username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        ' Add parameters to the query
+        
         command.Parameters.AddWithValue("@username", username)
 
-        ' Execute the query and read the score
+       
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("score")), 0, Convert.ToInt32(reader("score")))
 
-            ' Make sure to update the PointsLbl on MainInterface
+           
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
@@ -122,7 +122,7 @@ Public Class FinishForm
             End If
         End If
 
-        ' Clean up
+       
         reader.Close()
         db.closeConnection()
     End Sub
@@ -132,13 +132,13 @@ Public Class FinishForm
         player = New SoundPlayer("C:\Users\johnk\Downloads\Game Show Theme Style Music. [ ezmp3.cc ].wav")
         player.PlayLooping()
 
-        ' Get the count of correct answers from AnsClass
+       
         CorrectAns.Text = AnsClass.CorrectAnswersCount().ToString()
 
-        ' Set the Username label's Text to the user's username
+        
         Username.Text = UserSession.Username
 
-        ' Calculate total score and set the TotalScore label's Text
+        
         TotalScore.Text = ScoreModule.CalculateTotalScore().ToString()
 
         Dim profileImage As Byte() = LoadUserProfile(UserSession.Username)
@@ -148,20 +148,20 @@ Public Class FinishForm
                 ProfilePicture.Image = Image.FromStream(ms)
             End Using
         Else
-            ' Load a default image if no profile picture was found
+           
             ProfilePicture.Image = Image.FromFile("C:\Users\johnk\Downloads\user.png")
         End If
     End Sub
 
     Private Function GetUserScore(username As String) As Integer
-        Dim score As Integer = 0 ' Default score if not found
-        Dim playerId As Integer = 0 ' Variable to hold the player_id
+        Dim score As Integer = 0 
+        Dim playerId As Integer = 0 
 
-        ' Step 1: Get the player_id from the players_tb table based on username
+        
         Dim getPlayerIdQuery As String = "SELECT player_id FROM players_tb WHERE Username = @username"
 
         Using connection As New MySqlConnection("Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;")
-            ' First, get the player_id using the username
+            
             Dim playerIdCommand As New MySqlCommand(getPlayerIdQuery, connection)
             playerIdCommand.Parameters.AddWithValue("@username", username)
 
@@ -170,23 +170,23 @@ Public Class FinishForm
                 Dim playerIdReader As MySqlDataReader = playerIdCommand.ExecuteReader()
 
                 If playerIdReader.Read() Then
-                    ' If player_id is found, assign it
+                   
                     playerId = Convert.ToInt32(playerIdReader("player_id"))
                 End If
 
                 playerIdReader.Close()
 
-                ' Step 2: Get the score from the scores_tb table using player_id
+               
                 If playerId > 0 Then
                     Dim getScoreQuery As String = "SELECT Score FROM scores_tb WHERE player_id = @player_id"
                     Dim scoreCommand As New MySqlCommand(getScoreQuery, connection)
                     scoreCommand.Parameters.AddWithValue("@player_id", playerId)
 
-                    ' Execute the query to get the score
+                    
                     Dim scoreReader As MySqlDataReader = scoreCommand.ExecuteReader()
 
                     If scoreReader.Read() Then
-                        ' If score is found, assign it
+                       
                         score = If(IsDBNull(scoreReader("Score")), 0, Convert.ToInt32(scoreReader("Score")))
                     End If
 
