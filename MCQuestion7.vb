@@ -9,16 +9,15 @@ Public Class MCQuestion7
 
     Private flickerCount As Integer = 0
     Private flickerTimer As New Timer() With {.Interval = 100}
-    Private transitionTimer As New Timer() With {.Interval = 2000} ' 2-second intervals
-    Private currentPhase As Integer = 0 ' Track which part of the transition we are in
-    Private buttonsClickable As Boolean = True ' Track if buttons are clickable
+    Private transitionTimer As New Timer() With {.Interval = 2000}
+    Private currentPhase As Integer = 0 
+    Private buttonsClickable As Boolean = True 
     Private correctSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (1).wav")
     Private wrongSound As New SoundPlayer("C:\Users\johnk\Downloads\Untitled video - Made with Clipchamp (2).wav")
     Private Sub UpdatePanelColor(panelName As String, newColor As Color)
         If PanelColors.ContainsKey(panelName) Then
-            PanelColors(panelName) = newColor ' Update the global dictionary
+            PanelColors(panelName) = newColor 
 
-            ' Apply the color to the actual panel
             Select Case panelName
                 Case "Q7Panel"
                     QuestionScores.Q7Panel.FillColor = newColor
@@ -35,28 +34,28 @@ Public Class MCQuestion7
     End Sub
 
     Private Sub Guna2Button3_Click(sender As Object, e As EventArgs) Handles Guna2Button3.Click
-        ' Prevent multiple clicks by disabling the button
+        
         If Not buttonsClickable Then Return
         buttonsClickable = False
 
-        ' Increment the correct answers count and add to AnsClass
+        
         CorrectAnswers.CorrectAnswersCount += 1
         AnsClass.AddCorrectAnswer(True)
 
-        ' Update score for the user
+        
         UpdateScore(UserSession.Username, 20)
 
-        ' Set up flicker effect and button color change
+       
         flickerCount = 0
         Guna2Button3.FillColor = Color.LightGreen
         UpdatePanelColor("Q7Panel", Color.LightGreen)
-        QuestionScores.Q7Panel.FillColor = Color.LightGreen ' Change the panel color for the correct answer
+        QuestionScores.Q7Panel.FillColor = Color.LightGreen
         flickerTimer.Start()
         correctSound.Play()
-        ' Show CorrectForm after flickering
+        
         Dim correctForm As New CorrectForm()
         correctForm.Show()
-        transitionTimer.Start() ' Start transition timer to handle closing the CorrectForm
+        transitionTimer.Start() 
     End Sub
 
 
@@ -150,7 +149,7 @@ Public Class MCQuestion7
         Else
             flickerTimer.Stop()
             Guna2Button3.FillColor = Color.LightGreen
-            QuestionScores.Q7Panel.FillColor = Color.LightGreen ' Set the panel color as well
+            QuestionScores.Q7Panel.FillColor = Color.LightGreen 
             currentPhase = 1
         End If
     End Sub
@@ -158,7 +157,7 @@ Public Class MCQuestion7
     Private Sub TransitionSequence(sender As Object, e As EventArgs)
         Select Case currentPhase
             Case 1
-                ' Close WrongForm or CorrectForm
+               
                 Dim correctForm As CorrectForm = Application.OpenForms.OfType(Of CorrectForm)().FirstOrDefault()
                 Dim wrongForm As WrongForm = Application.OpenForms.OfType(Of WrongForm)().FirstOrDefault()
 
@@ -168,17 +167,17 @@ Public Class MCQuestion7
                     correctForm.Close()
                 End If
 
-                ' Open QuestionScores form (retain panel color)
+               
                 Dim questionScores As QuestionScores = Application.OpenForms.OfType(Of QuestionScores)().FirstOrDefault()
                 If questionScores Is Nothing Then
                     questionScores = New QuestionScores()
-                    questionScores.Q7Panel.FillColor = Color.Gray ' Reflect the correct color
+                    questionScores.Q7Panel.FillColor = Color.Gray 
                     questionScores.Show()
                 Else
-                    questionScores.Q7Panel.FillColor = Color.Gray ' Update the color for an existing form
+                    questionScores.Q7Panel.FillColor = Color.Gray 
                 End If
 
-                ' Move to the next phase
+                
                 currentPhase = 2
 
             Case 2
@@ -188,29 +187,29 @@ Public Class MCQuestion7
                     questionScores.Close()
                 End If
 
-                ' Show MCQuestion8 in Guna2Panel1
+                
                 Dim mcInterface As MCInterface = Application.OpenForms.OfType(Of MCInterface)().FirstOrDefault()
                 If mcInterface IsNot Nothing Then
                     mcInterface.Guna2Panel1.Controls.Clear()
-                    Dim mcQuestion8 As New MCQuestion8() ' Replace with the actual next question form
+                    Dim mcQuestion8 As New MCQuestion8() 
                     mcQuestion8.TopLevel = False
                     mcInterface.Guna2Panel1.Controls.Add(mcQuestion8)
                     mcQuestion8.Show()
                 End If
 
-                ' Re-enable buttons
+                
                 buttonsClickable = True
 
-                ' Stop transition timer
+               
                 transitionTimer.Stop()
         End Select
     End Sub
 
-    ' Initialize timers in the constructor or Form_Load event
+  
     Private Sub MCQuestion7_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler flickerTimer.Tick, AddressOf FlickerEffect
         AddHandler transitionTimer.Tick, AddressOf TransitionSequence
-        MCInterface.QuestionLbl.Text = "7" ' Update question label to show it's Question 7
+        MCInterface.QuestionLbl.Text = "7" 
     End Sub
 
 End Class
