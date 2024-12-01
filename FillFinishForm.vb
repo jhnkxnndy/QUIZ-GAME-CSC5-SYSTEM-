@@ -18,7 +18,7 @@ Public Class FillFinishForm
                 ProfilePicture.Image = Image.FromStream(ms)
             End Using
         Else
-            ' Load a default image if no profile picture was found
+           
             ProfilePicture.Image = Image.FromFile("C:\Users\johnk\Downloads\user.png")
         End If
 
@@ -27,15 +27,15 @@ Public Class FillFinishForm
     End Sub
 
     Private Sub ResetPanelColors()
-        ' Loop through all panels and reset their colors to white
+        
         For Each panelName As String In GlobalState.PanelColors.Keys.ToList()
-            ' Assuming the panels are named Q1Panel, Q2Panel, etc.
+            
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
                 panelControl.BackColor = Color.White ' Reset the panel color to white
             End If
 
-            ' Optionally, reset the color in the dictionary to ensure consistency
+           
             GlobalState.PanelColors(panelName) = Color.White
         Next
     End Sub
@@ -70,7 +70,7 @@ Public Class FillFinishForm
         mainInterface.MainPanel.Controls.Add(modeSelection)
         modeSelection.Show()
 
-        ' Update the score label and username on MainInterface
+       
         UpdateScoreLabel(UserSession.Username) ' Update the score on MainInterface
         If Not String.IsNullOrEmpty(UserSession.Username) Then
             mainInterface.UpdateUsernameLabel(UserSession.Username) ' Make sure username is displayed
@@ -117,22 +117,22 @@ Public Class FillFinishForm
         Dim db As New MY_DB()
         db.openConnection()
 
-        ' SQL query to get the user's score from scores_tb
+       
         Dim query As String = "SELECT s.score FROM scores_tb s " &
                           "INNER JOIN players_tb p ON s.player_id = p.player_id " &
                           "WHERE p.username = @username"
         Dim command As New MySqlCommand(query, db.getConnection)
 
-        ' Add parameters to the query
+       
         command.Parameters.AddWithValue("@username", username)
 
-        ' Execute the query and read the score
+        
         Dim reader As MySqlDataReader = command.ExecuteReader()
 
         If reader.Read() Then
             Dim score As Integer = If(IsDBNull(reader("score")), 0, Convert.ToInt32(reader("score")))
 
-            ' Make sure to update the PointsLbl on MainInterface
+            
             Dim mainInterface As MainInterface = Application.OpenForms.OfType(Of MainInterface)().FirstOrDefault()
 
             If mainInterface IsNot Nothing Then
@@ -140,7 +140,7 @@ Public Class FillFinishForm
             End If
         End If
 
-        ' Clean up
+        
         reader.Close()
         db.closeConnection()
     End Sub
