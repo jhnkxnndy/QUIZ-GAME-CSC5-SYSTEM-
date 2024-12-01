@@ -1,16 +1,16 @@
 ﻿Imports MySql.Data.MySqlClient
 
 Public Class LeaderbordsFrm
-    ' Replace with your actual connection string
+    
     Private connectionString As String = "Server=localhost;Database=quizgame_db;Uid=root;Pwd=mysql_admin081105;"
 
     Private Sub LeaderbordsFrm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        LoadTopScores() ' Load scores when the form is first opened
+        LoadTopScores() 
 
     End Sub
 
     Private Sub RefreshButton_Click(sender As Object, e As EventArgs) Handles RefreshButton.Click
-        LoadTopScores() ' Refresh scores when the button is clicked
+        LoadTopScores() 
     End Sub
 
     Public Sub LoadTopScores()
@@ -25,14 +25,14 @@ Public Class LeaderbordsFrm
             Using reader As MySqlDataReader = command.ExecuteReader()
                 Dim rank As Integer = 1
 
-                ' Update leaderboard ranks and populate labels/images
+               
                 While reader.Read()
                     Dim username As String = reader("username").ToString()
                     Dim score As String = reader("score").ToString()
                     Dim playerId As Integer = CInt(reader("player_id"))
                     Dim imageBytes As Byte() = If(IsDBNull(reader("picture")), Nothing, CType(reader("picture"), Byte()))
 
-                    ' Update rank in leaderboard_tb using a separate connection
+                    
                     Using updateConnection As New MySqlConnection(connectionString)
                         updateConnection.Open()
                         Dim updateRankQuery As String = "UPDATE leaderboard_tb SET `rank` = @rank WHERE player_id = @player_id"
@@ -43,7 +43,7 @@ Public Class LeaderbordsFrm
                         End Using
                     End Using
 
-                    ' Update UI based on rank
+                    
                     Select Case rank
                         Case 1
                             TopUserLbl.Text = username
@@ -89,7 +89,7 @@ Public Class LeaderbordsFrm
                     rank += 1
                 End While
 
-                ' Handle remaining labels/images for ranks with no data
+                
                 For i As Integer = rank To 10
                     Select Case i
                         Case 2
