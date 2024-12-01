@@ -37,8 +37,8 @@ Public Class FillQuestion6
     End Sub
 
     Private Sub ValidateAnswers()
-        Dim correct1 As Boolean = Guna2TextBox1.Text = correctAnswers(0) ' Check TextBox1 answer
-        Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) ' Check TextBox2 answer
+        Dim correct1 As Boolean = Guna2TextBox1.Text = correctAnswers(0) 
+        Dim correct2 As Boolean = Guna2TextBox2.Text = correctAnswers(1) 
 
        
         Guna2TextBox1.ForeColor = If(correct1, Color.Green, Color.Red)
