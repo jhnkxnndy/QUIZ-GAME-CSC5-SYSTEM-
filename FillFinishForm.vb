@@ -32,7 +32,7 @@ Public Class FillFinishForm
             
             Dim panelControl As Control = Me.Controls.Find(panelName, True).FirstOrDefault()
             If panelControl IsNot Nothing Then
-                panelControl.BackColor = Color.White ' Reset the panel color to white
+                panelControl.BackColor = Color.White 
             End If
 
            
@@ -71,9 +71,9 @@ Public Class FillFinishForm
         modeSelection.Show()
 
        
-        UpdateScoreLabel(UserSession.Username) ' Update the score on MainInterface
+        UpdateScoreLabel(UserSession.Username)
         If Not String.IsNullOrEmpty(UserSession.Username) Then
-            mainInterface.UpdateUsernameLabel(UserSession.Username) ' Make sure username is displayed
+            mainInterface.UpdateUsernameLabel(UserSession.Username) 
         End If
 
         If Not String.IsNullOrEmpty(UserSession.Username) Then
