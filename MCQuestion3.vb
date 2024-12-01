@@ -150,7 +150,7 @@ Public Class MCQuestion3
         Else
             flickerTimer.Stop()
             Guna2Button1.FillColor = Color.LightGreen
-            QuestionScores.Q3Panel.FillColor = Color.LightGreen ' Set the panel color as well
+            QuestionScores.Q3Panel.FillColor = Color.LightGreen 
             currentPhase = 1
         End If
     End Sub
